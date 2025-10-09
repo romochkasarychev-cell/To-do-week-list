@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do week list</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="tasklist">
+    <header>
+        <h1 class="tasklist_header"> Список задач на неделю </h1>
+    </header>
+          <button class="createtask" id="openModal">Создать задачу</button>
+            <div class="modal_container" id="modal">
+                <form>
+                    <div class="modal_header">
+                        Создание задачи
+                    </div>
+                    <div class="modal_close" id="modal_close">
+                        <a href="#">&times</a>
+                    </div>
+                    <div class="modal_content">
+                        <div>
+                            <label for="task_name">Название задачи</label>
+                            <input type="text" id="task_name" name="task_name" required>
+                        </div>
+                        <div>
+                            <label for="task_descr">Описание задачи</label>
+                            <textarea type="text" id="task_descr" name="task_descr"></textarea>
+                        </div>
+                        <div class="day_select">
+                            <label for="day_select">Выбрать день недели</label>
+                            <select id="task_day" name="day" required>
+                                <option value="day_select" disabled selected> Выбрать день </option>
+                                <option value="monday"> Понедельник </option>
+                                <option value="tuesday"> Вторник </option>
+                                <option value="wednesday"> Среда </option>
+                                <option value="thursday"> Четверг </option>
+                                <option value="friday"> Пятница </option>
+                                <option value="saturday"> Суббота </option>
+                                <option value="sunday"> Воскресенье </option>
+                            </select>
+                        </div>
+                        <div class="modal_buttonbar">
+                            <button id="task_save" type="submit">Сохранить</button>
+                            <button id="task_cancel" type="button">Отменить</button>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+        <div class="tasklist_day"> 
+
+            <div class="days" date-day="monday">
+                <h3> Понедельник </h3>
+                    <ul class="task-list"></ul>
+            </div>
+  
+            <div class="days" date-day="tuesday">
+                <h3> Вторник </h3>
+                    <ul class="task-list"></ul>
+            </div>
+          
+            <div class="days" date-day="wednesday">
+                <h3> Среда </h3>
+                    <ul class="task-list"></ul>
+            </div>
+  
+            <div class="days" date-day="thursday">
+                <h3> Четверг </h3>
+                    <ul class="task-list"></ul>
+            </div>
+  
+            <div class="days" date-day="friday">
+                <h3> Пятница </h3>
+                    <ul class="task-list"></ul>
+            </div> 
+  
+            <div class="days" date-day="saturday">
+                <h3> Субботу </h3>
+                    <ul class="task-list"></ul>
+            </div>
+  
+            <div class="days" date-day="sunday">
+                <h3> Воскресенье </h3>
+                    <ul class="task-list"></ul>
+            </div>
+        </div> 
+
+                        <script src="script.js"></script>
+    </div>
+
+</body>
+</html>

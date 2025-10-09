@@ -1,0 +1,56 @@
+body {
+    background-color: black;
+    color: white;
+}
+header {
+    background-color: blueviolet;
+}
+.tasklist {
+  width:100%;
+  height:100%;
+
+}
+.tasklist_header{
+text-align: center;
+}
+button {
+    background-color: green;
+    border-radius:40px;
+}
+
+.tasklist_day {
+display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.days {
+    border-radius: 20px;
+    border: solid black;
+    background-color: blueviolet;
+}
+h3 {
+    text-align: center;
+}
+.modal_container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    display:none;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(239, 232, 232, 0.5);
+}
+
+.modal_close {
+    color:white;
+    background-color: red;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width:30px;
+    height:30px;
+    font-size: 200%;
+    text-align: center;
+    justify-content: center;
+}
