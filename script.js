@@ -52,6 +52,7 @@ function displayTask(task) {
       const taskElement = document.createElement('li');
       taskElement.className = 'task-item';
       taskElement.setAttribute('data-task-id',task.id);
+      taskElement.setAttribute('draggable','true')
       taskElement.innerHTML = `
       <div class="task_content">
       <h4>${task.name}</h4>
@@ -60,6 +61,7 @@ function displayTask(task) {
       </div>
       <button class="delete-task" onclick="deleteTask(${task.id})")>×</button>
       `;
+      addDragnDropHandlers(taskElement);
       taskList.appendChild(taskElement);
     }
   }
@@ -107,4 +109,60 @@ window.addEventListener('click', (e) => {
     }
   }
 }
+// // drag & drop
+function addDragnDropHandlers(taskElement){
+  taskElement.addEventListener("dragstart",(event)=>{
+  event.target.classList.add("dragging");
+  event.dataTransfer.setData("text/plain", event.target.getAttribute('data-task-id'));
+})
+taskElement.addEventListener("dragend",(event)=>{
+  event.target.classList.remove("dragging")
+})
+}
+function initializeDropZones(){
+  const dropZones = document.querySelectorAll('.days');
+  dropZones.forEach(zone => {
+    zone.addEventListener('dragover',(event)=>{
+      event.preventDefault();
+      zone.classList.add('drag-over');
+  })
+    zone.addEventListener('dragleave',(event)=>{
+      zone.classList.remove('drag-over');
+       });
+      zone.addEventListener('drop',(event)=>{
+         event.preventDefault();
+         zone.classList.remove('drag-over');
+         const taskId = event.dataTransfer.getData('text/plain');
+      const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+      const targetDay = zone.getAttribute('date-day');
+      if (taskElement && targetDay) {
+        // Перемещаем задачу в DOM
+        const taskList = zone.querySelector('.task-list');
+        if (taskList) {
+          taskList.appendChild(taskElement);
+          
+          // Обновляем данные в объекте tasks
+          updateTaskDay(taskId, targetDay);  
+        }
+      } 
+      });
+          
+  });
+}
 
+//update task
+function updateTaskDay(taskId,newDay){
+  taskId = parseInt(taskId);
+  for(day in tasks){
+    const taskIndex = tasks[day].findIndex(task => task.id === taskId);
+      if(taskIndex!==-1){
+        const[task] = tasks[day].splice(taskIndex,1);
+        task.day = newDay;
+        tasks[newDay].push(task);
+        break;
+      }
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  initializeDropZones();
+});
