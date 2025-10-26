@@ -12,6 +12,10 @@
         <h1 class="tasklist_header"> Список задач на неделю </h1>
     </header>
           <button class="createtask" id="openModal">Создать задачу</button>
+          <label for="start">Выбрать период</label>
+          <input class="date-filter" id="start" type="date">
+          <input class="date-filter" id="end" type="date">
+          <!-- modal container  -->
             <div class="modal_container" id="modal">
                 <form id="modal_form">
                     <div class="modal_header">
@@ -53,37 +57,37 @@
         <div class="tasklist_day"> 
 
             <div class="days" date-day="monday">
-                <h3> Понедельник </h3>
+                <h3 class="day-header"> Понедельник </h3>
                     <ul class="task-list"></ul>
             </div>
   
             <div class="days" date-day="tuesday">
-                <h3> Вторник </h3>
+                <h3 class="day-header"> Вторник </h3>
                     <ul class="task-list"></ul>
             </div>
           
             <div class="days" date-day="wednesday">
-                <h3> Среда </h3>
+                <h3 class="day-header"> Среда </h3>
                     <ul class="task-list"></ul>
             </div>
   
             <div class="days" date-day="thursday">
-                <h3> Четверг </h3>
+                <h3 class="day-header"> Четверг </h3>
                     <ul class="task-list"></ul>
             </div>
   
             <div class="days" date-day="friday">
-                <h3> Пятница </h3>
+                <h3 class="day-header"> Пятница </h3>
                     <ul class="task-list"></ul>
             </div> 
   
             <div class="days" date-day="saturday">
-                <h3> Суббота </h3>
+                <h3 class="day-header"> Суббота </h3>
                     <ul class="task-list"></ul>
             </div>
   
             <div class="days" date-day="sunday">
-                <h3> Воскресенье </h3>
+                <h3 class="day-header"> Воскресенье </h3>
                     <ul class="task-list"></ul>
             </div>
         </div> 

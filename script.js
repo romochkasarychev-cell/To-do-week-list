@@ -16,7 +16,28 @@ let tasks = {
   saturday: [],
   sunday: []
 };
+// Date filter
+const dateStartInput = document.getElementById("start");
+const dateEndInput = document.getElementById("end");
+dateStartInput.addEventListener('change',updateDate);
+dateEndInput.addEventListener('change',updateDate);
 
+function updateDate(){
+  const dateStart = dateStartInput.value;
+  const dateEnd = dateEndInput.value;
+    if(dateStart&&dateEnd){
+      const start = new Date(dateStart);
+      const end = new Date(dateEnd);
+        if(start>end){
+          alert("Выбран некорректный временной период");
+          dateEndInput.value = '';
+          return;
+        }
+        console.log(`Выбрана дата с ${dateStart} по ${dateEnd}`)
+    }
+}
+
+// modal for create task
 const modal = document.querySelector('#modal');
 const openModal = document.querySelector('#openModal');
 const modalClose = document.querySelector('#modal_close');
@@ -35,8 +56,8 @@ const task = {
   description: taskDescription,
   day: selectedDay,
   createdAt: new Date()
-}
-tasks[selectedDay].push(task);
+};
+  tasks[selectedDay].push(task);
   
   console.log('Задача создана:', task);
   console.log('Все задачи:', tasks);

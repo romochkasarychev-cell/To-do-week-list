@@ -17,19 +17,29 @@ button {
     background-color: green;
     border-radius:40px;
 }
+.date-filter{
+    background-color: blueviolet;
+    color:white;
+}
 
 .tasklist_day {
-display: grid;
+display: flex;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 .days {
+    flex: 1;
     border-radius: 20px;
     border: solid black;
     background-color: blueviolet;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
-h3 {
+
+.day-header {
     text-align: center;
+    border-bottom:solid white;
+    border-radius: 20px;
 }
 .modal_container {
     display: none;
