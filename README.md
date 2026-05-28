@@ -6,6 +6,8 @@
 ![Ant Design](https://img.shields.io/badge/Ant%20Design-5-0170FE?logo=antdesign&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)
 
+**Демо:** [https://romochkasarychev-cell.github.io/To-do-week-list/](https://romochkasarychev-cell.github.io/To-do-week-list/)
+
 ## О проекте
 
 Pet-проект с недельной Kanban-доской: задачи распределены по семи колонкам (понедельник — воскресенье). Интерфейс построен на React и [Ant Design](https://ant.design/) с русской локализацией.
@@ -74,6 +76,14 @@ npm run preview
 ```
 
 Собранные файлы будут в папке `dist/`.
+
+## Деплой на GitHub Pages
+
+При пуше в ветку `main` GitHub Actions автоматически собирает проект и публикует его на Pages.
+
+1. В репозитории: **Settings → Pages → Build and deployment → Source: GitHub Actions**
+2. После успешного workflow приложение доступно по адресу:
+   [https://romochkasarychev-cell.github.io/To-do-week-list/](https://romochkasarychev-cell.github.io/To-do-week-list/)
 
 ## Структура проекта
 
