@@ -1,5 +1,5 @@
-import { DeleteOutlined, HolderOutlined } from '@ant-design/icons';
-import { Button, Card, Popconfirm, Typography } from 'antd';
+import { DeleteOutlined, EditOutlined, HolderOutlined } from '@ant-design/icons';
+import { Button, Card, Popconfirm, Space, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { getPriorityMeta } from '../constants/priority';
 import PriorityLabel from './PriorityLabel';
@@ -7,7 +7,7 @@ import TaskAttachment from './TaskAttachment';
 
 const { Text, Paragraph } = Typography;
 
-export default function TaskCard({ task, onDelete, onDragStart, onDragEnd }) {
+export default function TaskCard({ task, onEdit, onDelete, onDragStart, onDragEnd }) {
   const priority = getPriorityMeta(task.priority);
 
   return (
@@ -25,21 +25,35 @@ export default function TaskCard({ task, onDelete, onDragStart, onDragEnd }) {
     >
       <div className="task-card__header">
         <HolderOutlined className="task-card__drag-icon" />
-        <Popconfirm
-          title="Удалить задачу?"
-          description="Это действие нельзя отменить"
-          okText="Удалить"
-          cancelText="Отмена"
-          onConfirm={() => onDelete(task.id)}
-        >
+        <Space size={0}>
           <Button
             type="text"
             size="small"
-            danger
-            icon={<DeleteOutlined />}
-            aria-label="Удалить задачу"
+            icon={<EditOutlined />}
+            aria-label="Редактировать задачу"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(task);
+            }}
           />
-        </Popconfirm>
+          <Popconfirm
+            title="Удалить задачу?"
+            description="Это действие нельзя отменить"
+            okText="Удалить"
+            cancelText="Отмена"
+            onConfirm={() => onDelete(task.id)}
+          >
+            <Button
+              type="text"
+              size="small"
+              danger
+              icon={<DeleteOutlined />}
+              aria-label="Удалить задачу"
+              onMouseDown={(e) => e.stopPropagation()}
+            />
+          </Popconfirm>
+        </Space>
       </div>
       <div className="task-card__meta">
         <PriorityLabel priority={task.priority} />

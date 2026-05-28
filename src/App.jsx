@@ -20,7 +20,7 @@ const { Header, Content } = Layout;
 const { Title } = Typography;
 
 export default function App() {
-  const { tasks, addTask, deleteTask, moveTask } = useTasks();
+  const { tasks, addTask, updateTask, deleteTask, moveTask } = useTasks();
   const [activeTab, setActiveTab] = useState('tasks');
 
   const tabItems = [
@@ -56,6 +56,7 @@ export default function App() {
         <TaskListTab
           tasks={tasks}
           onAddTask={addTask}
+          onUpdateTask={updateTask}
           onDeleteTask={deleteTask}
           onMoveTask={moveTask}
         />

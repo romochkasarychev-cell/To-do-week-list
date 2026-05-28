@@ -7,13 +7,33 @@ import WeekBoard from '../components/WeekBoard';
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
 
-export default function TaskListTab({ tasks, onAddTask, onDeleteTask, onMoveTask }) {
+export default function TaskListTab({ tasks, onAddTask, onUpdateTask, onDeleteTask, onMoveTask }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
   const [dateRange, setDateRange] = useState(null);
 
-  const handleCreateTask = (values) => {
-    onAddTask(values);
+  const openCreateModal = () => {
+    setEditingTask(null);
+    setModalOpen(true);
+  };
+
+  const openEditModal = (task) => {
+    setEditingTask(task);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
     setModalOpen(false);
+    setEditingTask(null);
+  };
+
+  const handleSubmit = (values) => {
+    if (editingTask) {
+      onUpdateTask(editingTask.id, values);
+    } else {
+      onAddTask(values);
+    }
+    closeModal();
   };
 
   const handleDateChange = (dates) => {
@@ -27,7 +47,7 @@ export default function TaskListTab({ tasks, onAddTask, onDeleteTask, onMoveTask
           type="primary"
           icon={<PlusOutlined />}
           size="large"
-          onClick={() => setModalOpen(true)}
+          onClick={openCreateModal}
         >
           Создать задачу
         </Button>
@@ -50,13 +70,15 @@ export default function TaskListTab({ tasks, onAddTask, onDeleteTask, onMoveTask
         tasks={tasks}
         dateRange={dateRange}
         onDelete={onDeleteTask}
+        onEdit={openEditModal}
         onMove={onMoveTask}
       />
 
       <TaskModal
         open={modalOpen}
-        onCancel={() => setModalOpen(false)}
-        onSubmit={handleCreateTask}
+        task={editingTask}
+        onCancel={closeModal}
+        onSubmit={handleSubmit}
       />
     </>
   );

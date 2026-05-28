@@ -12,6 +12,7 @@ export default function DayColumn({
   tasks,
   dateRange,
   onDelete,
+  onEdit,
   onMove,
 }) {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -72,6 +73,7 @@ export default function DayColumn({
             <TaskCard
               key={task.id}
               task={task}
+              onEdit={onEdit}
               onDelete={onDelete}
               onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}

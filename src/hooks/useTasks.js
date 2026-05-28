@@ -93,5 +93,42 @@ export function useTasks() {
     });
   };
 
-  return { tasks, addTask, deleteTask, moveTask };
+  const updateTask = (taskId, { name, description, day, priority, attachment }) => {
+    setTasks((prev) => {
+      const next = { ...prev };
+      let existingTask = null;
+
+      for (const dayKey of Object.keys(next)) {
+        const index = next[dayKey].findIndex((task) => task.id === taskId);
+        if (index !== -1) {
+          existingTask = next[dayKey][index];
+          next[dayKey] = next[dayKey].filter((task) => task.id !== taskId);
+          break;
+        }
+      }
+
+      if (!existingTask) return prev;
+
+      const updatedTask = {
+        ...existingTask,
+        name,
+        description,
+        day,
+        priority: priority || DEFAULT_PRIORITY,
+      };
+
+      if (attachment !== undefined) {
+        if (attachment === null) {
+          delete updatedTask.attachment;
+        } else {
+          updatedTask.attachment = attachment;
+        }
+      }
+
+      next[day] = [...next[day], updatedTask];
+      return next;
+    });
+  };
+
+  return { tasks, addTask, updateTask, deleteTask, moveTask };
 }

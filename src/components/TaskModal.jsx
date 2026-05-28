@@ -1,5 +1,6 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal, Select, Upload, message } from 'antd';
+import { useEffect } from 'react';
 import { DAYS } from '../constants/days';
 import { MAX_ATTACHMENT_SIZE } from '../constants/files';
 import { DEFAULT_PRIORITY, PRIORITIES } from '../constants/priority';
@@ -11,13 +12,51 @@ const normFile = (event) => {
   return event?.fileList;
 };
 
-export default function TaskModal({ open, onCancel, onSubmit }) {
+function getAttachmentFileList(task) {
+  if (!task?.attachment) return [];
+
+  return [
+    {
+      uid: String(task.id),
+      name: task.attachment.name,
+      status: 'done',
+    },
+  ];
+}
+
+export default function TaskModal({ open, task, onCancel, onSubmit }) {
   const [form] = Form.useForm();
+  const isEdit = Boolean(task);
+
+  useEffect(() => {
+    if (!open) return;
+
+    if (task) {
+      form.setFieldsValue({
+        name: task.name,
+        description: task.description,
+        day: task.day,
+        priority: task.priority,
+        attachment: getAttachmentFileList(task),
+      });
+      return;
+    }
+
+    form.resetFields();
+    form.setFieldsValue({ priority: DEFAULT_PRIORITY, attachment: [] });
+  }, [open, task, form]);
 
   const handleFinish = async (values) => {
     try {
-      const file = values.attachment?.[0]?.originFileObj;
-      const attachment = file ? await readFileAsAttachment(file) : null;
+      const fileList = values.attachment || [];
+      const newFile = fileList[0]?.originFileObj;
+      let attachment;
+
+      if (newFile) {
+        attachment = await readFileAsAttachment(newFile);
+      } else if (fileList.length === 0) {
+        attachment = null;
+      }
 
       onSubmit({
         name: values.name,
@@ -40,7 +79,7 @@ export default function TaskModal({ open, onCancel, onSubmit }) {
 
   return (
     <Modal
-      title="Создание задачи"
+      title={isEdit ? 'Редактирование задачи' : 'Создание задачи'}
       open={open}
       onCancel={handleCancel}
       onOk={() => form.submit()}
@@ -48,12 +87,7 @@ export default function TaskModal({ open, onCancel, onSubmit }) {
       cancelText="Отменить"
       destroyOnClose
     >
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleFinish}
-        initialValues={{ priority: DEFAULT_PRIORITY }}
-      >
+      <Form form={form} layout="vertical" onFinish={handleFinish}>
         <Form.Item
           label="Название задачи"
           name="name"
@@ -105,11 +139,7 @@ export default function TaskModal({ open, onCancel, onSubmit }) {
           getValueFromEvent={normFile}
           extra={`Необязательно. До ${formatFileSize(MAX_ATTACHMENT_SIZE)}, хранится локально в браузере.`}
         >
-          <Upload
-            beforeUpload={() => false}
-            maxCount={1}
-            listType="text"
-          >
+          <Upload beforeUpload={() => false} maxCount={1} listType="text">
             <Button icon={<UploadOutlined />}>Выбрать файл</Button>
           </Upload>
         </Form.Item>
