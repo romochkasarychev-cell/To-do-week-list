@@ -79,11 +79,16 @@ npm run preview
 
 ## Деплой на GitHub Pages
 
-При пуше в ветку `main` GitHub Actions автоматически собирает проект и публикует его на Pages.
+При пуше в ветку `main` GitHub Actions собирает проект и публикует его в ветку `gh-pages`.
 
-1. В репозитории: **Settings → Pages → Build and deployment → Source: GitHub Actions**
-2. После успешного workflow приложение доступно по адресу:
-   [https://romochkasarychev-cell.github.io/To-do-week-list/](https://romochkasarychev-cell.github.io/To-do-week-list/)
+**Один раз включите Pages в репозитории:**
+
+1. GitHub → **Settings → Pages**
+2. **Build and deployment → Source:** `Deploy from a branch`
+3. **Branch:** `gh-pages` → `/ (root)` → **Save**
+
+После успешного workflow приложение будет доступно по адресу:
+[https://romochkasarychev-cell.github.io/To-do-week-list/](https://romochkasarychev-cell.github.io/To-do-week-list/)
 
 ## Структура проекта
 
