@@ -1,6 +1,7 @@
 import { Badge, Card, Empty, Typography } from 'antd';
 import { useState } from 'react';
 import { isTaskInDateRange } from '../utils/filterTasks';
+import { sortTasksByPriority } from '../utils/sortTasks';
 import TaskCard from './TaskCard';
 
 const { Title } = Typography;
@@ -14,7 +15,9 @@ export default function DayColumn({
   onMove,
 }) {
   const [isDragOver, setIsDragOver] = useState(false);
-  const visibleTasks = tasks.filter((task) => isTaskInDateRange(task, dateRange));
+  const visibleTasks = sortTasksByPriority(
+    tasks.filter((task) => isTaskInDateRange(task, dateRange))
+  );
 
   const handleDragOver = (e) => {
     e.preventDefault();

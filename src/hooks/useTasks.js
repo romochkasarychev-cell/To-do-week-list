@@ -1,5 +1,14 @@
+import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { EMPTY_TASKS, STORAGE_KEY } from '../constants/days';
+import { DEFAULT_PRIORITY } from '../constants/priority';
+
+function normalizeTask(task) {
+  return {
+    ...task,
+    priority: task.priority || DEFAULT_PRIORITY,
+  };
+}
 
 function loadTasks() {
   try {
@@ -7,7 +16,15 @@ function loadTasks() {
     if (!saved) return { ...EMPTY_TASKS };
 
     const parsed = JSON.parse(saved);
-    return { ...EMPTY_TASKS, ...parsed };
+    const normalized = { ...EMPTY_TASKS, ...parsed };
+
+    for (const day of Object.keys(normalized)) {
+      normalized[day] = Array.isArray(normalized[day])
+        ? normalized[day].map(normalizeTask)
+        : [];
+    }
+
+    return normalized;
   } catch {
     return { ...EMPTY_TASKS };
   }
@@ -21,16 +38,21 @@ export function useTasks() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     } catch (error) {
       console.error('Ошибка при сохранении в localStorage:', error);
+      if (error?.name === 'QuotaExceededError') {
+        message.error('Недостаточно места в браузере. Удалите задачи с файлами или выберите файл меньшего размера.');
+      }
     }
   }, [tasks]);
 
-  const addTask = ({ name, description, day }) => {
+  const addTask = ({ name, description, day, priority, attachment }) => {
     const task = {
       id: Date.now(),
       name,
       description,
       day,
+      priority: priority || DEFAULT_PRIORITY,
       createdAt: new Date().toISOString(),
+      ...(attachment && { attachment }),
     };
 
     setTasks((prev) => ({
